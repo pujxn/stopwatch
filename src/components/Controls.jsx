@@ -1,8 +1,9 @@
-const Controls = () => {
+const Controls = ({ playState, toggle, stop, reset }) => {
     return (
         <>
-            <button>Pause</button>
-            <button>Stop</button>
+            <button onClick={toggle}>{playState ? "Pause" : "Play"}</button>
+            <button onClick={stop}>Stop</button>
+            <button onClick={reset}>Reset</button>
         </>
 
     )
