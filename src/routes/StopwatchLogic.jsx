@@ -33,7 +33,7 @@ const StopwatchLogic = () => {
     return (
         <>
             <h1>stopwatch</h1>
-            <Display time={playState ? timer.getTimeValues().toString() : time} />
+            <Display mode="stopwatch" time={playState ? timer.getTimeValues().toString() : time} />
             <Controls toggle={handleToggle} playState={playState} stop={handleStop} reset={handleReset} />
         </>
 
