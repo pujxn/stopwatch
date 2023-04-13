@@ -1,8 +1,8 @@
 import useTimer from "easytimer-react-hook";
 import Display from "@/components/Display"
 import Controls from "@/components/Controls";
-import { useState, useEffect } from "react";
-const DisplayLogic = () => {
+import { useState } from "react";
+const StopwatchLogic = () => {
 
     const [time, setTime] = useState("00:00:00");
     const [timer] = useTimer();
@@ -32,6 +32,7 @@ const DisplayLogic = () => {
     }
     return (
         <>
+            <h1>stopwatch</h1>
             <Display time={playState ? timer.getTimeValues().toString() : time} />
             <Controls toggle={handleToggle} playState={playState} stop={handleStop} reset={handleReset} />
         </>
@@ -39,4 +40,4 @@ const DisplayLogic = () => {
     )
 }
 
-export default DisplayLogic;
+export default StopwatchLogic;

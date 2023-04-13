@@ -1,14 +1,18 @@
-import DisplayLogic from "@/components/DisplayLogic";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import StopwatchLogic from "@/routes/StopwatchLogic";
+import { Route, Routes } from "react-router-dom";
+import Layout from "@/components/Layout";
+import Home from "@/routes/Home";
+import NotMatch from "@/routes/NotMatch";
 
 const App = () => {
     return (
-        <>
-            <Header />
-            <DisplayLogic />
-            <Footer />
-        </>
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="stopwatch" element={<StopwatchLogic />} />
+                <Route path="*" element={<NotMatch />} />
+            </Route>
+        </Routes>
     )
 }
 
