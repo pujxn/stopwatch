@@ -1,10 +1,11 @@
 import Display from "@/components/Display";
 import Controls from "@/components/Controls";
 import useTimer from "easytimer-react-hook";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import TimerInput from "@/components/TimerInput";
+
 
 const TimerLogic = () => {
-
     const [timer] = useTimer();
     const [editMode, setEditMode] = useState(true);
     const [time, setTime] = useState({
@@ -14,10 +15,12 @@ const TimerLogic = () => {
     });
 
     const handleEdit = (timePart, newVal) => {
-        return setTime({
+        timer.stop();
+        setTime({
             ...time,
-            [timePart]: newVal,
+            [timePart]: newVal
         })
+        setEditMode(false);
     }
 
 
@@ -27,15 +30,32 @@ const TimerLogic = () => {
         timer.start({ "countdown": true, "startValues": time });
     }
 
+    const handleDoubleClick = () => {
+        console.log("Double clicked");
+        setEditMode(true);
+        setTime({
+            "hours": timer.getTimeValues().hours.toString(),
+            "minutes": timer.getTimeValues().minutes.toString(),
+            "seconds": timer.getTimeValues().seconds.toString(),
+        })
+        timer.stop();
+    }
+
+    useEffect(() => {
+        !editMode && timer.start({ "countdown": true, "startValues": time });
+    }, [time])
 
 
     return (
         editMode ? (
             <>
                 <form onSubmit={(e) => handleSubmit(e)}>
-                    <input type="text" value={time.hours} placeholder="Hours" onChange={(e) => handleEdit("hours", e.target.value)} />
-                    <input type="text" value={time.minutes} placeholder="Minutes" onChange={(e) => handleEdit("minutes", e.target.value)} />
-                    <input type="text" value={time.seconds} placeholder="Seconds" onChange={(e) => handleEdit("seconds", e.target.value)} />
+
+                    {Object.keys(time).map((ele, idx) => {
+                        return (
+                            <TimerInput key={idx} timePart={ele} timeValue={time[ele]} handleEdit={handleEdit} />
+                        )
+                    })}
                     <button>Start</button>
                 </form>
             </>
@@ -44,7 +64,7 @@ const TimerLogic = () => {
 
             (
                 <>
-                    <Display mode="timer" time={timer.getTimeValues().toString()} />
+                    <Display mode="timer" time={timer.getTimeValues().toString()} handleDoubleClick={handleDoubleClick} />
                     <Controls />
                 </>
             )
