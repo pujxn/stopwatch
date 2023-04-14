@@ -1,12 +1,14 @@
 import Display from "@/components/Display";
 import Controls from "@/components/Controls";
 import useTimer from "easytimer-react-hook";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TimerInput from "@/components/TimerInput";
+
 
 
 const TimerLogic = () => {
     const [timer] = useTimer();
+    const ref = useRef(null);
     const [editMode, setEditMode] = useState(true);
     const [time, setTime] = useState({
         "seconds": 0,
@@ -15,12 +17,13 @@ const TimerLogic = () => {
     });
 
     const handleEdit = (timePart, newVal) => {
-        timer.stop();
+        console.log("inside handleEdit")
+        // timer.stop();
         setTime({
             ...time,
             [timePart]: newVal
-        })
-        setEditMode(false);
+        });
+        // setEditMode(false);
     }
 
 
@@ -41,15 +44,33 @@ const TimerLogic = () => {
         timer.stop();
     }
 
+    const handleClickOutside = (e) => {
+        console.log(ref, ref.current, e.target);
+        if (ref.current && !ref.current.contains(e.target)) {
+            setEditMode(false);
+            setTime({
+                ...time,
+                [timePart]: newVal
+            });
+            // timer.start({ "countdown": true, "startValues": time });
+
+        }
+    }
+
     useEffect(() => {
+        editMode && ref.current.addEventListener("blur", handleClickOutside);
         !editMode && timer.start({ "countdown": true, "startValues": time });
+
+        return () => {
+            ref.current.removeEventListener("blur", handleClickOutside);
+        }
     }, [time])
 
 
     return (
         editMode ? (
             <>
-                <form onSubmit={(e) => handleSubmit(e)}>
+                <form ref={ref} onSubmit={(e) => handleSubmit(e)}>
 
                     {Object.keys(time).map((ele, idx) => {
                         return (
