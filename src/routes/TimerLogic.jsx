@@ -48,21 +48,21 @@ const TimerLogic = () => {
         console.log(ref, ref.current, e.target);
         if (ref.current && !ref.current.contains(e.target)) {
             setEditMode(false);
-            setTime({
-                ...time,
-                [timePart]: newVal
-            });
+            // setTime({
+            //     ...time,
+            //     [timePart]: newVal
+            // });
             // timer.start({ "countdown": true, "startValues": time });
 
         }
     }
 
     useEffect(() => {
-        editMode && ref.current.addEventListener("blur", handleClickOutside);
+        editMode && ref.current.addEventListener("mouseup", handleClickOutside);
         !editMode && timer.start({ "countdown": true, "startValues": time });
 
         return () => {
-            ref.current.removeEventListener("blur", handleClickOutside);
+            ref.current.removeEventListener("mouseup", handleClickOutside);
         }
     }, [time])
 
