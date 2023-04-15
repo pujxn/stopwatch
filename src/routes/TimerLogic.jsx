@@ -17,13 +17,11 @@ const TimerLogic = () => {
     });
 
     const handleEdit = (timePart, newVal) => {
-        console.log("inside handleEdit")
-        // timer.stop();
+        // console.log("inside handleEdit")
         setTime({
             ...time,
             [timePart]: newVal
         });
-        // setEditMode(false);
     }
 
 
@@ -34,7 +32,7 @@ const TimerLogic = () => {
     }
 
     const handleDoubleClick = () => {
-        console.log("Double clicked");
+        // console.log("Double clicked");
         setEditMode(true);
         setTime({
             "hours": timer.getTimeValues().hours.toString(),
@@ -45,24 +43,17 @@ const TimerLogic = () => {
     }
 
     const handleClickOutside = (e) => {
-        console.log(ref, ref.current, e.target);
+        // console.log("hello", ref, ref.current, e.target, time);
         if (ref.current && !ref.current.contains(e.target)) {
             setEditMode(false);
-            // setTime({
-            //     ...time,
-            //     [timePart]: newVal
-            // });
-            // timer.start({ "countdown": true, "startValues": time });
-
+            timer.start({ "countdown": true, "startValues": time });
         }
     }
 
     useEffect(() => {
-        editMode && ref.current.addEventListener("mouseup", handleClickOutside);
-        !editMode && timer.start({ "countdown": true, "startValues": time });
-
+        editMode && document.addEventListener("mouseup", handleClickOutside);
         return () => {
-            ref.current.removeEventListener("mouseup", handleClickOutside);
+            document.removeEventListener("mouseup", handleClickOutside);
         }
     }, [time])
 
