@@ -77,7 +77,7 @@ const TimerLogic = () => {
             (
                 <>
                     <Display mode="timer" time={timer.getTimeValues().toString()} handleDoubleClick={handleDoubleClick} />
-                    <Controls />
+                    <Controls mode="timer" />
                 </>
             )
     )

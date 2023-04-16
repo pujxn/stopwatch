@@ -34,10 +34,11 @@ const StopwatchLogic = () => {
         <>
             <h1>stopwatch</h1>
             <Display mode="stopwatch" time={playState ? timer.getTimeValues().toString() : time} />
-            <Controls toggle={handleToggle} playState={playState} stop={handleStop} reset={handleReset} />
+            <Controls mode="stopwatch" toggle={handleToggle} playState={playState} stop={handleStop} reset={handleReset} />
         </>
 
     )
 }
 
 export default StopwatchLogic;
+export { handleToggle };

@@ -1,9 +1,11 @@
 import StopwatchControls from "@/components/StopwatchControls"
+import TimerControls from "./TimerControls";
 
-const Controls = ({ playState, toggle, stop, reset }) => {
+const Controls = ({ mode, playState, toggle, stop, reset }) => {
     return (
         <>
-            <StopwatchControls playState={playState} toggle={toggle} stop={stop} reset={reset} />
+            {mode == "stopwatch" ? <StopwatchControls playState={playState} toggle={toggle} stop={stop} reset={reset} /> :
+                <TimerControls />}
         </>
     )
 }

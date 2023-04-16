@@ -1,5 +1,12 @@
+import { handleToggle } from "@/routes/StopwatchLogic";
+
 const TimerControls = () => {
-    return (<p>Timer Controls</p>)
+    return (
+        <>
+            <button>Cancel</button>
+            <button onClick={handleToggle}>Start</button>
+        </>
+    )
 }
 
 export default TimerControls;
