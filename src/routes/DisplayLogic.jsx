@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useTimer from "easytimer-react-hook";
-import Display from "@/components/Display";
 import StopwatchControls from "@/components/StopwatchControls";
-// import TimerControls from "@/components/TimerControls";
+import StopwatchDisplay from "@/components/StopwatchDisplay";
+import TimerDisplay from "@/components/TimerDisplay";
+import TimerControls from "@/components/TimerControls";
 
 const DisplayLogic = () => {
-    const [time, setTime] = useState(
-        {
-            "seconds": 0,
-            "minutes": 0,
-            "hours": 0
-        }
-    );
 
     const [mode, setMode] = useState("");
 
@@ -21,54 +15,49 @@ const DisplayLogic = () => {
 
     const [playState, setPlayState] = useState(false);
 
-    const handlePauseToggle = () => {
+    const handlePauseToggle = (timeObj) => {
+        console.log("timeObj", timeObj);
         console.log(playState)
         setPlayState((prevState) => !prevState);
         playState && (
-            setTime(timer.getTimeValues().toString()),
             timer.pause()
         );
-        !playState && timer.start();
+        !playState && (
+            mode == "stopwatch" ? timer.start() : timer.start({ countdown: true, startValues: timeObj }),
+            timerEditMode && setTimerEditMode(false)
+        );
     }
 
     const handleReset = () => {
         setPlayState(false);
         timer.reset();
         timer.stop();
+        if (mode == "timer") {
+            setTimerEditMode(true);
+        }
     }
-
-    const handleTimerDoubleClick = () => {
-        setPlayState(false);
-        setTimerEditMode(true);
-        setTime(timer.getTimeValues().toString());
-    }
-
 
 
     return (
         <>
             <button onClick={() => setMode("stopwatch")}>Stopwatch</button>
             <button onClick={() => setMode("Timer")}>Timer</button>
-            {/* <Display mode={mode} time={playState ? time.getTimeValues().toString() : time} timerEditMode={timerEditMode} handleTimerDoubleClick={handleTimerDoubleClick} /> */}
-            <Display mode={mode} time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} handleTimerDoubleClick={handleTimerDoubleClick} />
 
             {mode == "stopwatch" ? (
                 <>
+                    <StopwatchDisplay time={timer.getTimeValues().toString()} />
                     <StopwatchControls playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} />
                 </>
 
             ) :
                 <>
-                    {/* <TimerControls playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} /> */}
-                    <p>Timer Controls</p>
+                    <TimerDisplay time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} handlePauseToggle={handlePauseToggle} />
+                    <TimerControls />
+
                 </>
             }
         </>
-
-
     )
-
-
 }
 
 export default DisplayLogic;
