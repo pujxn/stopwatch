@@ -1,9 +1,9 @@
-const StopwatchControls = ({ playState, toggle, stop, reset }) => {
+const StopwatchControls = ({ playState, handlePauseToggle, handleReset }) => {
     return (
         <>
-            <button onClick={toggle}>{playState ? "Pause" : "Play"}</button>
-            <button onClick={stop}>Stop</button>
-            <button onClick={reset}>Reset</button>
+            <button onClick={handlePauseToggle}>{playState ? "Pause" : "Play"}</button>
+            {/* <button onClick={stop}>Stop</button> */}
+            <button onClick={handleReset}>Reset</button>
         </>
 
     )
