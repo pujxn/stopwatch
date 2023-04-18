@@ -11,8 +11,6 @@ const DisplayLogic = () => {
 
     const [timerEditMode, setTimerEditMode] = useState(true);
 
-    const [timer] = useTimer();
-
     const [playState, setPlayState] = useState(false);
 
     const [prevTimerValue, setPrevTimerValue] = useState({
@@ -20,6 +18,9 @@ const DisplayLogic = () => {
         "minutes": 0,
         "seconds": 0,
     });
+
+    const [timer] = useTimer();
+
 
     const handlePauseToggle = () => {
         setPlayState((prevState) => !prevState);
