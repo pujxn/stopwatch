@@ -7,11 +7,16 @@ import TimerControls from "@/components/TimerControls";
 
 const DisplayLogic = () => {
 
+
     const [mode, setMode] = useState("");
 
     const [timerEditMode, setTimerEditMode] = useState(true);
 
     const [playState, setPlayState] = useState(false);
+
+    const [laps, setLaps] = useState([]);
+
+    const [prevLapTime, setPrevLapTime] = useState("00:00:00");
 
     const [prevTimerValue, setPrevTimerValue] = useState({
         "hours": 0,
@@ -58,6 +63,22 @@ const DisplayLogic = () => {
         setTimerEditMode(true);
     }
 
+    const calcTimeStrDiff = (oldHms, newHms) => {
+        const diff = new Date("1970-01-01T" + newHms).getTime() - new Date("1970-01-01T" + oldHms).getTime();
+        const diffSeconds = (Math.floor(diff / 1000));
+        const diffSecondsLeft = (diffSeconds % 60 < 10 ? "0" : "") + diffSeconds % 60;
+        const diffMinutes = (Math.floor(diffSeconds / 60));
+        const diffMinutesLeft = (diffMinutes % 60 < 10 ? "0" : "") + diffMinutes % 60;
+        const diffHours = (Math.floor(diffMinutes / 60));
+        const diffHoursLeft = (diffHours < 10 ? "0" : "") + diffHours;
+        return `${diffHoursLeft}:${diffMinutesLeft}:${diffSecondsLeft}`
+    }
+
+    const handleLaps = () => {
+        setLaps((prevState) => [...prevState, calcTimeStrDiff(prevLapTime, timer.getTimeValues().toString())]);
+        setPrevLapTime(timer.getTimeValues().toString());
+    }
+
     useEffect(() => {
         timer.addEventListener("targetAchieved", handleTimerCompleted)
     }, [])
@@ -71,7 +92,7 @@ const DisplayLogic = () => {
             {mode == "stopwatch" ? (
                 <>
                     <StopwatchDisplay time={timer.getTimeValues().toString()} />
-                    <StopwatchControls playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} />
+                    <StopwatchControls handleLaps={handleLaps} playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} />
                 </>) :
                 mode == "timer" && (
                     <>
