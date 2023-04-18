@@ -15,7 +15,13 @@ const DisplayLogic = () => {
 
     const [playState, setPlayState] = useState(false);
 
-    const handlePauseToggle = (timeObj) => {
+    const [prevTimerValue, setPrevTimerValue] = useState({
+        "hours": 0,
+        "minutes": 0,
+        "seconds": 0,
+    });
+
+    const handlePauseToggle = () => {
         // console.log("timeObj", timeObj);
         // console.log(playState)
         setPlayState((prevState) => !prevState);
@@ -23,25 +29,50 @@ const DisplayLogic = () => {
             timer.pause()
         );
         !playState && (
-            mode == "stopwatch" ? timer.start() : timer.start({ countdown: true, startValues: timeObj }),
-            timerEditMode && setTimerEditMode(false)
+            timer.start()
+            // timerEditMode && 
+            // mode == "timer" && setPrevTimerValue(timeObj)
         );
     }
 
     const handleReset = () => {
         setPlayState(false);
-        timer.reset();
-        timer.stop();
+        // const pt = timer.getTimeValues();
         if (mode == "timer") {
+            // setPrevTimerValue({ ...timer.getTimeValues() });
             setTimerEditMode(true);
         }
+        // console.log(timer.getTimeValues());
+        // console.log("ptold", pt, timer.getTimeValues());
+
+        timer.reset();
+        timer.stop();
+        // console.log("pt", pt, timer.getTimeValues());
+    }
+
+    const handleModeSwitch = (newMode) => {
+        setMode(newMode);
+        setPlayState(false);
+        timer.reset();
+        timer.stop();
+        if (newMode == "timer") {
+            setTimerEditMode(true);
+        }
+    }
+
+    const handleTimerStart = (timeObj) => {
+        setTimerEditMode(false);
+        setPrevTimerValue(timeObj);
+        setTimerEditMode(false);
+        timer.start({ countdown: true, startValues: timeObj })
+
     }
 
 
     return (
         <>
-            <button onClick={() => setMode("stopwatch")}>Stopwatch</button>
-            <button onClick={() => setMode("timer")}>Timer</button>
+            <button onClick={() => handleModeSwitch("stopwatch")}>Stopwatch</button>
+            <button onClick={() => handleModeSwitch("timer")}>Timer</button>
 
             {mode == "stopwatch" ? (
                 <>
@@ -50,8 +81,8 @@ const DisplayLogic = () => {
                 </>) :
                 mode == "timer" && (
                     <>
-                        <TimerDisplay time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} />
-                        <TimerControls handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
+                        <TimerDisplay prevTimerValue={prevTimerValue} time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} />
+                        <TimerControls handleTimerStart={handleTimerStart} handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
 
                     </>)
             }
