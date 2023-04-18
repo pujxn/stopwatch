@@ -4,6 +4,7 @@ import StopwatchControls from "@/components/StopwatchControls";
 import StopwatchDisplay from "@/components/StopwatchDisplay";
 import TimerDisplay from "@/components/TimerDisplay";
 import TimerControls from "@/components/TimerControls";
+import StopwatchLaps from "@/components/StopwatchLaps";
 
 const DisplayLogic = () => {
 
@@ -93,12 +94,12 @@ const DisplayLogic = () => {
                 <>
                     <StopwatchDisplay time={timer.getTimeValues().toString()} />
                     <StopwatchControls handleLaps={handleLaps} playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} />
+                    <StopwatchLaps laps={laps} />
                 </>) :
                 mode == "timer" && (
                     <>
                         <TimerDisplay prevTimerValue={prevTimerValue} time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} />
                         <TimerControls handleTimerStart={handleTimerStart} handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
-
                     </>)
             }
         </>
