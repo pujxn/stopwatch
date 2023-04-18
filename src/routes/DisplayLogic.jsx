@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTimer from "easytimer-react-hook";
 import StopwatchControls from "@/components/StopwatchControls";
 import StopwatchDisplay from "@/components/StopwatchDisplay";
@@ -22,32 +22,17 @@ const DisplayLogic = () => {
     });
 
     const handlePauseToggle = () => {
-        // console.log("timeObj", timeObj);
-        // console.log(playState)
         setPlayState((prevState) => !prevState);
-        playState && (
-            timer.pause()
-        );
-        !playState && (
-            timer.start()
-            // timerEditMode && 
-            // mode == "timer" && setPrevTimerValue(timeObj)
-        );
+        playState ? timer.pause() : timer.start();
     }
 
     const handleReset = () => {
         setPlayState(false);
-        // const pt = timer.getTimeValues();
         if (mode == "timer") {
-            // setPrevTimerValue({ ...timer.getTimeValues() });
             setTimerEditMode(true);
         }
-        // console.log(timer.getTimeValues());
-        // console.log("ptold", pt, timer.getTimeValues());
-
         timer.reset();
         timer.stop();
-        // console.log("pt", pt, timer.getTimeValues());
     }
 
     const handleModeSwitch = (newMode) => {
@@ -65,8 +50,16 @@ const DisplayLogic = () => {
         setPrevTimerValue(timeObj);
         setTimerEditMode(false);
         timer.start({ countdown: true, startValues: timeObj })
-
     }
+
+    const handleTimerCompleted = () => {
+        alert("Time is up!");
+        setTimerEditMode(true);
+    }
+
+    useEffect(() => {
+        timer.addEventListener("targetAchieved", handleTimerCompleted)
+    }, [])
 
 
     return (
