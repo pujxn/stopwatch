@@ -16,8 +16,8 @@ const DisplayLogic = () => {
     const [playState, setPlayState] = useState(false);
 
     const handlePauseToggle = (timeObj) => {
-        console.log("timeObj", timeObj);
-        console.log(playState)
+        // console.log("timeObj", timeObj);
+        // console.log(playState)
         setPlayState((prevState) => !prevState);
         playState && (
             timer.pause()
@@ -41,20 +41,19 @@ const DisplayLogic = () => {
     return (
         <>
             <button onClick={() => setMode("stopwatch")}>Stopwatch</button>
-            <button onClick={() => setMode("Timer")}>Timer</button>
+            <button onClick={() => setMode("timer")}>Timer</button>
 
             {mode == "stopwatch" ? (
                 <>
                     <StopwatchDisplay time={timer.getTimeValues().toString()} />
                     <StopwatchControls playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} />
-                </>
+                </>) :
+                mode == "timer" && (
+                    <>
+                        <TimerDisplay time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} />
+                        <TimerControls handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
 
-            ) :
-                <>
-                    <TimerDisplay time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} handlePauseToggle={handlePauseToggle} />
-                    <TimerControls />
-
-                </>
+                    </>)
             }
         </>
     )

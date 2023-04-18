@@ -1,18 +1,10 @@
-const TimerDisplay = ({ time, timerEditMode, handlePauseToggle }) => {
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const data = new FormData(e.target);
-        const values = Object.fromEntries(data.entries());
-        handlePauseToggle(values);
-    }
-
+const TimerDisplay = ({ time, timerEditMode }) => {
     return (
         timerEditMode ? (
-            <form onSubmit={handleSubmit} id="timerEditForm">
-                <input type="text" name="hours" />
-                <input type="text" name="minutes" />
-                <input type="text" name="seconds" />
+            <form id="timerEditForm">
+                <input type="number" name="hours" placeholder="hours" />
+                <input type="number" name="minutes" placeholder="minutes" />
+                <input type="number" name="seconds" placeholder="seconds" />
             </form >
         ) :
             <p>{time}</p>);
