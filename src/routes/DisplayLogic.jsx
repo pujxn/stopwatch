@@ -75,6 +75,10 @@ const DisplayLogic = () => {
         return `${diffHoursLeft}:${diffMinutesLeft}:${diffSecondsLeft}`
     }
 
+    const calcMsFromStr = (hms) => {
+        return new Date("1970-01-01T" + hms).getTime();
+    }
+
     const handleLaps = () => {
         setLaps((prevState) => [...prevState, calcTimeStrDiff(prevLapTime, timer.getTimeValues().toString())]);
         setPrevLapTime(timer.getTimeValues().toString());
@@ -94,7 +98,7 @@ const DisplayLogic = () => {
                 <>
                     <StopwatchDisplay time={timer.getTimeValues().toString()} />
                     <StopwatchControls handleLaps={handleLaps} playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} />
-                    <StopwatchLaps laps={laps} />
+                    {laps.length != 0 && <StopwatchLaps laps={laps} calcMsFromStr={calcMsFromStr} />}
                 </>) :
                 mode == "timer" && (
                     <>
