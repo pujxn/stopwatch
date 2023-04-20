@@ -8,21 +8,17 @@ import StopwatchLaps from "@/components/StopwatchLaps";
 import { useSelector, useDispatch } from "react-redux";
 import { handleModeSwitch } from "@/components/modeSlice";
 import { setTimerEditMode } from "@/components/timerEditModeSlice";
+import { setPlayState } from "@/components/playStateSlice";
 
 const DisplayLogic = () => {
 
-
-    // const [mode, setMode] = useState("");
+    const dispatch = useDispatch();
 
     const mode = useSelector(state => state.mode.value);
 
     const timerEditMode = useSelector(state => state.timerEditMode.value);
 
-    const dispatch = useDispatch();
-
-    // const [timerEditMode, setTimerEditMode] = useState(true);
-
-    const [playState, setPlayState] = useState(false);
+    const playState = useSelector(state => state.playState.value);
 
     const [laps, setLaps] = useState([]);
 
@@ -38,12 +34,12 @@ const DisplayLogic = () => {
 
 
     const handlePauseToggle = () => {
-        setPlayState((prevState) => !prevState);
+        dispatch(setPlayState(!playState));
         playState ? timer.pause() : timer.start();
     }
 
     const handleReset = () => {
-        setPlayState(false);
+        dispatch(setPlayState(false));
         if (mode == "timer") {
             dispatch(setTimerEditMode(true));
         }
@@ -54,7 +50,7 @@ const DisplayLogic = () => {
     const modeToggle = (newMode) => {
         // setMode(newMode);
         dispatch(handleModeSwitch(newMode));
-        setPlayState(false);
+        dispatch(setPlayState(false));
         timer.reset();
         timer.stop();
         if (newMode == "timer") {
