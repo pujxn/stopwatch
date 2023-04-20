@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleModeSwitch } from "@/components/modeSlice";
 import { setTimerEditMode } from "@/components/timerEditModeSlice";
 import { setPlayState } from "@/components/playStateSlice";
+import { addLap } from "@/components/lapsSlice";
 
 const DisplayLogic = () => {
 
@@ -20,7 +21,9 @@ const DisplayLogic = () => {
 
     const playState = useSelector(state => state.playState.value);
 
-    const [laps, setLaps] = useState([]);
+    const laps = useSelector(state => state.laps.value);
+
+    // const [laps, setLaps] = useState([]);
 
     const [prevLapTime, setPrevLapTime] = useState("00:00:00");
 
@@ -48,7 +51,6 @@ const DisplayLogic = () => {
     }
 
     const modeToggle = (newMode) => {
-        // setMode(newMode);
         dispatch(handleModeSwitch(newMode));
         dispatch(setPlayState(false));
         timer.reset();
@@ -70,23 +72,13 @@ const DisplayLogic = () => {
         dispatch(setTimerEditMode(true));
     }
 
-    const calcTimeStrDiff = (oldHms, newHms) => {
-        const diff = new Date("1970-01-01T" + newHms).getTime() - new Date("1970-01-01T" + oldHms).getTime();
-        const diffSeconds = (Math.floor(diff / 1000));
-        const diffSecondsLeft = (diffSeconds % 60 < 10 ? "0" : "") + diffSeconds % 60;
-        const diffMinutes = (Math.floor(diffSeconds / 60));
-        const diffMinutesLeft = (diffMinutes % 60 < 10 ? "0" : "") + diffMinutes % 60;
-        const diffHours = (Math.floor(diffMinutes / 60));
-        const diffHoursLeft = (diffHours < 10 ? "0" : "") + diffHours;
-        return `${diffHoursLeft}:${diffMinutesLeft}:${diffSecondsLeft}`
-    }
 
     const calcMsFromStr = (hms) => {
         return new Date("1970-01-01T" + hms).getTime();
     }
 
     const handleLaps = () => {
-        setLaps((prevState) => [...prevState, calcTimeStrDiff(prevLapTime, timer.getTimeValues().toString())]);
+        dispatch(addLap({ prevLapTime: prevLapTime, currentTime: timer.getTimeValues().toString() }))
         setPrevLapTime(timer.getTimeValues().toString());
     }
 
@@ -117,3 +109,13 @@ const DisplayLogic = () => {
 }
 
 export default DisplayLogic;
+export const calcTimeStrDiff = (oldHms, newHms) => {
+    const diff = new Date("1970-01-01T" + newHms).getTime() - new Date("1970-01-01T" + oldHms).getTime();
+    const diffSeconds = (Math.floor(diff / 1000));
+    const diffSecondsLeft = (diffSeconds % 60 < 10 ? "0" : "") + diffSeconds % 60;
+    const diffMinutes = (Math.floor(diffSeconds / 60));
+    const diffMinutesLeft = (diffMinutes % 60 < 10 ? "0" : "") + diffMinutes % 60;
+    const diffHours = (Math.floor(diffMinutes / 60));
+    const diffHoursLeft = (diffHours < 10 ? "0" : "") + diffHours;
+    return `${diffHoursLeft}:${diffMinutesLeft}:${diffSecondsLeft}`
+}
