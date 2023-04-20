@@ -3,6 +3,7 @@ import modeReducer from "@/components/modeSlice"
 import timeEditModeReducer from "@/components/timerEditModeSlice";
 import playStateReducer from "@/components/playStateSlice";
 import lapsReducer from "@/components/lapsSlice";
+import prevLapTimeReducer from "@/components/prevLapTimeSlice";
 
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
         "mode": modeReducer,
         "timerEditMode": timeEditModeReducer,
         "playState": playStateReducer,
-        "laps": lapsReducer
+        "laps": lapsReducer,
+        "prevLapTime": prevLapTimeReducer
     }
 });
 

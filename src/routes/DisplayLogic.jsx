@@ -10,6 +10,7 @@ import { handleModeSwitch } from "@/components/modeSlice";
 import { setTimerEditMode } from "@/components/timerEditModeSlice";
 import { setPlayState } from "@/components/playStateSlice";
 import { addLap } from "@/components/lapsSlice";
+import { setPrevLapTime } from "@/components/prevLapTimeSlice";
 
 const DisplayLogic = () => {
 
@@ -23,9 +24,11 @@ const DisplayLogic = () => {
 
     const laps = useSelector(state => state.laps.value);
 
+    const prevLapTime = useSelector(state => state.prevLapTime.value);
+
     // const [laps, setLaps] = useState([]);
 
-    const [prevLapTime, setPrevLapTime] = useState("00:00:00");
+    // const [prevLapTime, setPrevLapTime] = useState("00:00:00");
 
     const [prevTimerValue, setPrevTimerValue] = useState({
         "hours": 0,
@@ -79,7 +82,7 @@ const DisplayLogic = () => {
 
     const handleLaps = () => {
         dispatch(addLap({ prevLapTime: prevLapTime, currentTime: timer.getTimeValues().toString() }))
-        setPrevLapTime(timer.getTimeValues().toString());
+        dispatch(setPrevLapTime(timer.getTimeValues().toString()));
     }
 
     useEffect(() => {
