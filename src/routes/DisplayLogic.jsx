@@ -7,6 +7,7 @@ import TimerControls from "@/components/TimerControls";
 import StopwatchLaps from "@/components/StopwatchLaps";
 import { useSelector, useDispatch } from "react-redux";
 import { handleModeSwitch } from "@/components/modeSlice";
+import { setTimerEditMode } from "@/components/timerEditModeSlice";
 
 const DisplayLogic = () => {
 
@@ -15,9 +16,11 @@ const DisplayLogic = () => {
 
     const mode = useSelector(state => state.mode.value);
 
+    const timerEditMode = useSelector(state => state.timerEditMode.value);
+
     const dispatch = useDispatch();
 
-    const [timerEditMode, setTimerEditMode] = useState(true);
+    // const [timerEditMode, setTimerEditMode] = useState(true);
 
     const [playState, setPlayState] = useState(false);
 
@@ -42,7 +45,7 @@ const DisplayLogic = () => {
     const handleReset = () => {
         setPlayState(false);
         if (mode == "timer") {
-            setTimerEditMode(true);
+            dispatch(setTimerEditMode(true));
         }
         timer.reset();
         timer.stop();
@@ -55,20 +58,20 @@ const DisplayLogic = () => {
         timer.reset();
         timer.stop();
         if (newMode == "timer") {
-            setTimerEditMode(true);
+            dispatch(setTimerEditMode(true));
         }
     }
 
     const handleTimerStart = (timeObj) => {
-        setTimerEditMode(false);
+        dispatch(setTimerEditMode(false));
         setPrevTimerValue(timeObj);
-        setTimerEditMode(false);
+        dispatch(setTimerEditMode(false));
         timer.start({ countdown: true, startValues: timeObj })
     }
 
     const handleTimerCompleted = () => {
         alert("Time is up!");
-        setTimerEditMode(true);
+        dispatch(setTimerEditMode(true));
     }
 
     const calcTimeStrDiff = (oldHms, newHms) => {
