@@ -5,11 +5,17 @@ import StopwatchDisplay from "@/components/StopwatchDisplay";
 import TimerDisplay from "@/components/TimerDisplay";
 import TimerControls from "@/components/TimerControls";
 import StopwatchLaps from "@/components/StopwatchLaps";
+import { useSelector, useDispatch } from "react-redux";
+import { handleModeSwitch } from "@/components/modeSlice";
 
 const DisplayLogic = () => {
 
 
-    const [mode, setMode] = useState("");
+    // const [mode, setMode] = useState("");
+
+    const mode = useSelector(state => state.mode.value);
+
+    const dispatch = useDispatch();
 
     const [timerEditMode, setTimerEditMode] = useState(true);
 
@@ -42,8 +48,9 @@ const DisplayLogic = () => {
         timer.stop();
     }
 
-    const handleModeSwitch = (newMode) => {
-        setMode(newMode);
+    const modeToggle = (newMode) => {
+        // setMode(newMode);
+        dispatch(handleModeSwitch(newMode));
         setPlayState(false);
         timer.reset();
         timer.stop();
@@ -91,8 +98,8 @@ const DisplayLogic = () => {
 
     return (
         <>
-            <button onClick={() => handleModeSwitch("stopwatch")}>Stopwatch</button>
-            <button onClick={() => handleModeSwitch("timer")}>Timer</button>
+            <button onClick={() => modeToggle("stopwatch")}>Stopwatch</button>
+            <button onClick={() => modeToggle("timer")}>Timer</button>
 
             {mode == "stopwatch" ? (
                 <>
