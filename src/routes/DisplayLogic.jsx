@@ -6,12 +6,12 @@ import TimerDisplay from "@/components/TimerDisplay";
 import TimerControls from "@/components/TimerControls";
 import StopwatchLaps from "@/components/StopwatchLaps";
 import { useSelector, useDispatch } from "react-redux";
-import { handleModeSwitch } from "@/components/modeSlice";
-import { setTimerEditMode } from "@/components/timerEditModeSlice";
-import { setPlayState } from "@/components/playStateSlice";
-import { addLap } from "@/components/lapsSlice";
-import { setPrevLapTime } from "@/components/prevLapTimeSlice";
-import { setPrevTimerValue } from "@/components/prevTimerValueSlice";
+import { handleModeSwitch } from "@/reduxState/modeSlice";
+import { setTimerEditMode } from "@/reduxState/timerEditModeSlice";
+import { setPlayState } from "@/reduxState/playStateSlice";
+import { addLap } from "@/reduxState/lapsSlice";
+import { setPrevLapTime } from "@/reduxState/prevLapTimeSlice";
+import { setPrevTimerValue } from "@/reduxState/prevTimerValueSlice";
 
 const DisplayLogic = () => {
 
@@ -28,12 +28,6 @@ const DisplayLogic = () => {
     const prevLapTime = useSelector(state => state.prevLapTime.value);
 
     const prevTimerValue = useSelector(state => state.prevTimerValue.value);
-
-    // const [prevTimerValue, setPrevTimerValue] = useState({
-    //     "hours": 0,
-    //     "minutes": 0,
-    //     "seconds": 0,
-    // });
 
     const [timer] = useTimer();
 

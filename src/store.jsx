@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import modeReducer from "@/components/modeSlice"
-import timeEditModeReducer from "@/components/timerEditModeSlice";
-import playStateReducer from "@/components/playStateSlice";
-import lapsReducer from "@/components/lapsSlice";
-import prevLapTimeReducer from "@/components/prevLapTimeSlice";
-import prevTimerValueReducer from "@/components/prevTimerValueSlice";
+import modeReducer from "@/reduxState/modeSlice"
+import timeEditModeReducer from "@/reduxState/timerEditModeSlice";
+import playStateReducer from "@/reduxState/playStateSlice";
+import lapsReducer from "@/reduxState/lapsSlice";
+import prevLapTimeReducer from "@/reduxState/prevLapTimeSlice";
+import prevTimerValueReducer from "@/reduxState/prevTimerValueSlice";
 
 
 const store = configureStore({
