@@ -61,7 +61,7 @@ const DisplayLogic = () => {
     const handleTimerStart = (timeObj) => {
         dispatch(setTimerEditMode(false));
         setPrevTimerValue(timeObj);
-        dispatch(setTimerEditMode(false));
+        dispatch(setPlayState(true));
         timer.start({ countdown: true, startValues: timeObj })
     }
 
