@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { calcMsFromStr } from "@/routes/DisplayLogic"
 
-const StopwatchLaps = ({ laps, calcMsFromStr }) => {
+const StopwatchLaps = () => {
 
+    const laps = useSelector(state => state.laps.value);
     const [fastestIdx, setFastestIdx] = useState(0);
     const [slowestIdx, setSlowestIdx] = useState(0);
 

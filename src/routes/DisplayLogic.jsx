@@ -37,14 +37,14 @@ const DisplayLogic = () => {
         playState ? timer.pause() : timer.start();
     }
 
-    const handleReset = () => {
-        dispatch(setPlayState(false));
-        if (mode == "timer") {
-            dispatch(setTimerEditMode(true));
-        }
-        timer.reset();
-        timer.stop();
-    }
+    // const handleReset = () => {
+    //     dispatch(setPlayState(false));
+    //     if (mode == "timer") {
+    //         dispatch(setTimerEditMode(true));
+    //     }
+    //     timer.reset();
+    //     timer.stop();
+    // }
 
     const modeToggle = (newMode) => {
         dispatch(handleModeSwitch(newMode));
@@ -69,14 +69,11 @@ const DisplayLogic = () => {
     }
 
 
-    const calcMsFromStr = (hms) => {
-        return new Date("1970-01-01T" + hms).getTime();
-    }
 
-    const handleLaps = () => {
-        dispatch(addLap({ prevLapTime: prevLapTime, currentTime: timer.getTimeValues().toString() }))
-        dispatch(setPrevLapTime(timer.getTimeValues().toString()));
-    }
+    // const handleLaps = () => {
+    //     dispatch(addLap({ prevLapTime: prevLapTime, currentTime: timer.getTimeValues().toString() }))
+    //     dispatch(setPrevLapTime(timer.getTimeValues().toString()));
+    // }
 
     useEffect(() => {
         timer.addEventListener("targetAchieved", handleTimerCompleted)
@@ -90,13 +87,14 @@ const DisplayLogic = () => {
 
             {mode == "stopwatch" ? (
                 <>
-                    <StopwatchDisplay time={timer.getTimeValues().toString()} />
-                    <StopwatchControls handleLaps={handleLaps} playState={playState} handlePauseToggle={handlePauseToggle} handleReset={handleReset} />
-                    {laps.length != 0 && <StopwatchLaps laps={laps} calcMsFromStr={calcMsFromStr} />}
+                    {/* <StopwatchDisplay time={timer.getTimeValues().toString()} /> */}
+                    <StopwatchDisplay timer={timer} />
+                    <StopwatchControls timer={timer} />
+                    {laps.length != 0 && <StopwatchLaps />}
                 </>) :
                 mode == "timer" && (
                     <>
-                        <TimerDisplay prevTimerValue={prevTimerValue} time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} />
+                        <TimerDisplay time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} />
                         <TimerControls handleTimerStart={handleTimerStart} handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
                     </>)
             }
@@ -114,4 +112,8 @@ export const calcTimeStrDiff = (oldHms, newHms) => {
     const diffHours = (Math.floor(diffMinutes / 60));
     const diffHoursLeft = (diffHours < 10 ? "0" : "") + diffHours;
     return `${diffHoursLeft}:${diffMinutesLeft}:${diffSecondsLeft}`
+}
+
+export const calcMsFromStr = (hms) => {
+    return new Date("1970-01-01T" + hms).getTime();
 }
