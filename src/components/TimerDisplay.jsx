@@ -1,10 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 
 
-const TimerDisplay = ({ time, timerEditMode }) => {
+const TimerDisplay = ({ timer }) => {
 
     const dispatch = useDispatch();
     const prevTimerValue = useSelector(state => state.prevTimerValue.value);
+    const timerEditMode = useSelector(state => state.timerEditMode.value);
 
 
     return (
@@ -17,7 +18,7 @@ const TimerDisplay = ({ time, timerEditMode }) => {
                 <input defaultValue={prevTimerValue.seconds || 0} type="number" name="seconds" placeholder="seconds" /> */}
             </form >
         ) :
-            <p>{time}</p>);
+            <p>{timer.getTimeValues().toString()}</p>);
 }
 
 export default TimerDisplay;

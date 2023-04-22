@@ -56,12 +56,12 @@ const DisplayLogic = () => {
         }
     }
 
-    const handleTimerStart = (timeObj) => {
-        dispatch(setTimerEditMode(false));
-        dispatch(setPrevTimerValue(timeObj));
-        dispatch(setPlayState(true));
-        timer.start({ countdown: true, startValues: timeObj })
-    }
+    // const handleTimerStart = (timeObj) => {
+    //     dispatch(setTimerEditMode(false));
+    //     dispatch(setPrevTimerValue(timeObj));
+    //     dispatch(setPlayState(true));
+    //     timer.start({ countdown: true, startValues: timeObj })
+    // }
 
     const handleTimerCompleted = () => {
         alert("Time is up!");
@@ -94,8 +94,8 @@ const DisplayLogic = () => {
                 </>) :
                 mode == "timer" && (
                     <>
-                        <TimerDisplay time={timer.getTimeValues().toString()} timerEditMode={timerEditMode} />
-                        <TimerControls handleTimerStart={handleTimerStart} handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
+                        <TimerDisplay timer={timer} />
+                        <TimerControls timer={timer} handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
                     </>)
             }
         </>
