@@ -19,23 +19,23 @@ const DisplayLogic = () => {
 
     const mode = useSelector(state => state.mode.value);
 
-    const timerEditMode = useSelector(state => state.timerEditMode.value);
+    // const timerEditMode = useSelector(state => state.timerEditMode.value);
 
-    const playState = useSelector(state => state.playState.value);
+    // const playState = useSelector(state => state.playState.value);
 
-    const laps = useSelector(state => state.laps.value);
+    // const laps = useSelector(state => state.laps.value);
 
-    const prevLapTime = useSelector(state => state.prevLapTime.value);
+    // const prevLapTime = useSelector(state => state.prevLapTime.value);
 
-    const prevTimerValue = useSelector(state => state.prevTimerValue.value);
+    // const prevTimerValue = useSelector(state => state.prevTimerValue.value);
 
     const [timer] = useTimer();
 
 
-    const handlePauseToggle = () => {
-        dispatch(setPlayState(!playState));
-        playState ? timer.pause() : timer.start();
-    }
+    // const handlePauseToggle = () => {
+    //     dispatch(setPlayState(!playState));
+    //     playState ? timer.pause() : timer.start();
+    // }
 
     // const handleReset = () => {
     //     dispatch(setPlayState(false));
@@ -63,10 +63,10 @@ const DisplayLogic = () => {
     //     timer.start({ countdown: true, startValues: timeObj })
     // }
 
-    const handleTimerCompleted = () => {
-        alert("Time is up!");
-        dispatch(setTimerEditMode(true));
-    }
+    // const handleTimerCompleted = () => {
+    //     alert("Time is up!");
+    //     dispatch(setTimerEditMode(true));
+    // }
 
 
 
@@ -75,9 +75,9 @@ const DisplayLogic = () => {
     //     dispatch(setPrevLapTime(timer.getTimeValues().toString()));
     // }
 
-    useEffect(() => {
-        timer.addEventListener("targetAchieved", handleTimerCompleted)
-    }, [])
+    // useEffect(() => {
+    //     timer.addEventListener("targetAchieved", handleTimerCompleted)
+    // }, [])
 
 
     return (
@@ -90,12 +90,12 @@ const DisplayLogic = () => {
                     {/* <StopwatchDisplay time={timer.getTimeValues().toString()} /> */}
                     <StopwatchDisplay timer={timer} />
                     <StopwatchControls timer={timer} />
-                    {laps.length != 0 && <StopwatchLaps />}
+                    <StopwatchLaps />
                 </>) :
                 mode == "timer" && (
                     <>
                         <TimerDisplay timer={timer} />
-                        <TimerControls timer={timer} handleReset={handleReset} handlePauseToggle={handlePauseToggle} timerEditMode={timerEditMode} playState={playState} />
+                        <TimerControls timer={timer} />
                     </>)
             }
         </>

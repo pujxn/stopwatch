@@ -2,12 +2,19 @@ import { setTimerEditMode } from "@/reduxState/timerEditModeSlice";
 import { setPrevTimerValue } from "@/reduxState/prevTimerValueSlice";
 import { setPlayState } from "@/reduxState/playStateSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 
-const TimerControls = ({ timer, playState, handlePauseToggle, timerEditMode }) => {
+const TimerControls = ({ timer }) => {
 
     const dispatch = useDispatch();
+    const playState = useSelector(state => state.playState.value);
+    const timerEditMode = useSelector(state => state.timerEditMode.value);
 
+    const handleTimerCompleted = () => {
+        alert("Time is up!");
+        dispatch(setTimerEditMode(true));
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,12 +33,21 @@ const TimerControls = ({ timer, playState, handlePauseToggle, timerEditMode }) =
         timer.stop();
     }
 
+    const handlePauseToggle = () => {
+        dispatch(setPlayState(!playState));
+        playState ? timer.pause() : timer.start();
+    }
+
     // const handleTimerStart = (timeObj) => {
     //     dispatch(setTimerEditMode(false));
     //     dispatch(setPrevTimerValue(timeObj));
     //     dispatch(setPlayState(true));
     //     timer.start({ countdown: true, startValues: timeObj })
     // }
+
+    useEffect(() => {
+        timer.addEventListener("targetAchieved", handleTimerCompleted)
+    }, [])
 
     return (
 

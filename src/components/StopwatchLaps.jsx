@@ -36,7 +36,7 @@ const StopwatchLaps = () => {
 
     return (
         <>
-            {laps.map((ele, idx) => {
+            {laps.length != 0 && laps.map((ele, idx) => {
                 return (
                     <p style={laps.length > 1 ? textStyle(idx) : {}} key={idx}>{ele}</p>
                 )
