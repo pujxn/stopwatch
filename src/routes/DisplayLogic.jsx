@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import useTimer from "easytimer-react-hook";
 import StopwatchControls from "@/components/StopwatchControls";
 import StopwatchDisplay from "@/components/StopwatchDisplay";
@@ -9,9 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleModeSwitch } from "@/reduxState/modeSlice";
 import { setTimerEditMode } from "@/reduxState/timerEditModeSlice";
 import { setPlayState } from "@/reduxState/playStateSlice";
-import { addLap } from "@/reduxState/lapsSlice";
-import { setPrevLapTime } from "@/reduxState/prevLapTimeSlice";
-import { setPrevTimerValue } from "@/reduxState/prevTimerValueSlice";
 
 const DisplayLogic = () => {
 
@@ -19,32 +15,7 @@ const DisplayLogic = () => {
 
     const mode = useSelector(state => state.mode.value);
 
-    // const timerEditMode = useSelector(state => state.timerEditMode.value);
-
-    // const playState = useSelector(state => state.playState.value);
-
-    // const laps = useSelector(state => state.laps.value);
-
-    // const prevLapTime = useSelector(state => state.prevLapTime.value);
-
-    // const prevTimerValue = useSelector(state => state.prevTimerValue.value);
-
     const [timer] = useTimer();
-
-
-    // const handlePauseToggle = () => {
-    //     dispatch(setPlayState(!playState));
-    //     playState ? timer.pause() : timer.start();
-    // }
-
-    // const handleReset = () => {
-    //     dispatch(setPlayState(false));
-    //     if (mode == "timer") {
-    //         dispatch(setTimerEditMode(true));
-    //     }
-    //     timer.reset();
-    //     timer.stop();
-    // }
 
     const modeToggle = (newMode) => {
         dispatch(handleModeSwitch(newMode));
@@ -56,30 +27,6 @@ const DisplayLogic = () => {
         }
     }
 
-    // const handleTimerStart = (timeObj) => {
-    //     dispatch(setTimerEditMode(false));
-    //     dispatch(setPrevTimerValue(timeObj));
-    //     dispatch(setPlayState(true));
-    //     timer.start({ countdown: true, startValues: timeObj })
-    // }
-
-    // const handleTimerCompleted = () => {
-    //     alert("Time is up!");
-    //     dispatch(setTimerEditMode(true));
-    // }
-
-
-
-    // const handleLaps = () => {
-    //     dispatch(addLap({ prevLapTime: prevLapTime, currentTime: timer.getTimeValues().toString() }))
-    //     dispatch(setPrevLapTime(timer.getTimeValues().toString()));
-    // }
-
-    // useEffect(() => {
-    //     timer.addEventListener("targetAchieved", handleTimerCompleted)
-    // }, [])
-
-
     return (
         <>
             <button onClick={() => modeToggle("stopwatch")}>Stopwatch</button>
@@ -87,7 +34,6 @@ const DisplayLogic = () => {
 
             {mode == "stopwatch" ? (
                 <>
-                    {/* <StopwatchDisplay time={timer.getTimeValues().toString()} /> */}
                     <StopwatchDisplay timer={timer} />
                     <StopwatchControls timer={timer} />
                     <StopwatchLaps />

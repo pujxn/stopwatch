@@ -14,8 +14,6 @@ const TimerDisplay = ({ timer }) => {
                 {["hours", "minutes", "seconds"].map((ele, idx) => {
                     return <input key={idx} defaultValue={prevTimerValue[ele] || 0} type="number" name={ele} placeholder={ele} />
                 })}
-                {/* <input defaultValue={prevTimerValue.minutes || 0} type="number" name="minutes" placeholder="minutes" />
-                <input defaultValue={prevTimerValue.seconds || 0} type="number" name="seconds" placeholder="seconds" /> */}
             </form >
         ) :
             <p>{timer.getTimeValues().toString()}</p>);

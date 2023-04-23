@@ -16,9 +16,6 @@ const StopwatchControls = ({ timer }) => {
 
     const handleReset = () => {
         dispatch(setPlayState(false));
-        // if (mode == "timer") {
-        //     dispatch(setTimerEditMode(true));
-        // }
         timer.reset();
         timer.stop();
     }

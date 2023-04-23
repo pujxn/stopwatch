@@ -38,13 +38,6 @@ const TimerControls = ({ timer }) => {
         playState ? timer.pause() : timer.start();
     }
 
-    // const handleTimerStart = (timeObj) => {
-    //     dispatch(setTimerEditMode(false));
-    //     dispatch(setPrevTimerValue(timeObj));
-    //     dispatch(setPlayState(true));
-    //     timer.start({ countdown: true, startValues: timeObj })
-    // }
-
     useEffect(() => {
         timer.addEventListener("targetAchieved", handleTimerCompleted)
     }, [])
